@@ -4,7 +4,7 @@ from firebase_admin import credentials, firestore
 import uuid
 
 # 🔹 Initialize Firebase
-cred = credentials.Certificate("serviceAccountKey.json")  # Ensure correct path
+cred = credentials.Certificate("PP_backend\sneakeet-firebase-adminsdk-qdjza-5a140d3551.json")  # Ensure correct path
 firebase_admin.initialize_app(cred)
 
 # 🔹 Get Firestore database reference
@@ -61,6 +61,27 @@ def get_orders():
     orders_ref = db.collection("orders").stream()
     orders = [{**doc.to_dict(), "id": doc.id} for doc in orders_ref]
     return jsonify({"orders": orders})
+
+@app.route("/products/bulk", methods=["POST"])
+def add_multiple_products():
+    products_data = request.json  # Expecting a list of products
+    if not isinstance(products_data, list):
+        return jsonify({"error": "Invalid data format. Expecting a list of products."}), 400
+
+    batch = db.batch()  # Use batch write for efficiency
+
+    product_ids = []
+    for product in products_data:
+        product_id = str(uuid.uuid4())  # Generate unique ID
+        product["date"] = firestore.SERVER_TIMESTAMP  # Add timestamp
+        doc_ref = db.collection("products").document(product_id)
+        batch.set(doc_ref, product)  # Add to batch
+        product_ids.append(product_id)
+
+    batch.commit()  # Execute batch write
+
+    return jsonify({"message": "Products added successfully", "product_ids": product_ids})
+
 
 # 🔹 Run Flask App
 if __name__ == "__main__":
