@@ -4,7 +4,7 @@ from firebase_admin import credentials, firestore
 import uuid
 
 # 🔹 Initialize Firebase
-cred = credentials.Certificate("PP_backend\sneakeet-firebase-adminsdk-qdjza-5a140d3551.json")  # Ensure correct path
+cred = credentials.Certificate("sneakeet-firebase-adminsdk-qdjza-5a140d3551.json")  # Ensure correct path
 firebase_admin.initialize_app(cred)
 
 # 🔹 Get Firestore database reference
@@ -62,26 +62,39 @@ def get_orders():
     orders = [{**doc.to_dict(), "id": doc.id} for doc in orders_ref]
     return jsonify({"orders": orders})
 
+
 @app.route("/products/bulk", methods=["POST"])
-def add_multiple_products():
-    products_data = request.json  # Expecting a list of products
-    if not isinstance(products_data, list):
-        return jsonify({"error": "Invalid data format. Expecting a list of products."}), 400
+def add_bulk_products():
+    products = request.json  # Expecting a list of products
+    updated_count = 0
+    added_count = 0
 
-    batch = db.batch()  # Use batch write for efficiency
+    for product in products:
+        product_name = product.get("name")  # Unique identifier
+        if not product_name:
+            continue  # Skip invalid product
 
-    product_ids = []
-    for product in products_data:
-        product_id = str(uuid.uuid4())  # Generate unique ID
-        product["date"] = firestore.SERVER_TIMESTAMP  # Add timestamp
-        doc_ref = db.collection("products").document(product_id)
-        batch.set(doc_ref, product)  # Add to batch
-        product_ids.append(product_id)
+        # 🔍 Check if the product already exists
+        existing_product = db.collection("products").where("name", "==", product_name).stream()
+        existing_doc = next(existing_product, None)
 
-    batch.commit()  # Execute batch write
+        if existing_doc:
+            # ✅ Update existing product
+            product_id = existing_doc.id
+            db.collection("products").document(product_id).update(product)
+            updated_count += 1
+        else:
+            # 🔹 Add new product
+            product_id = str(uuid.uuid4())
+            product["date"] = firestore.SERVER_TIMESTAMP
+            db.collection("products").document(product_id).set(product)
+            added_count += 1
 
-    return jsonify({"message": "Products added successfully", "product_ids": product_ids})
-
+    return jsonify({
+        "message": "Products processed successfully",
+        "added": added_count,
+        "updated": updated_count
+    }), 201
 
 # 🔹 Run Flask App
 if __name__ == "__main__":

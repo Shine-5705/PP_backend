@@ -12,17 +12,17 @@ products = [
         "currency": "rupees",
         "desc": "Send a custom potato message to anyone in India! Write up to 100 characters.",
         "tags": ["gift", "funny", "message"],
-        "images": ["https://example.com/potato-message.png"],
+        "images": ["https://phelapyar.com/cdn/shop/files/potato-parcel-potato-parcel-28352980353109_5000x_1_40c8a7ec-4a79-4e14-99c0-5e4a81defc71.jpg?v=1737655618&width=823" , "https://phelapyar.com/cdn/shop/files/potato-parcel-potato-parcel-30360035393621_5000x_107bd867-b7af-4176-989d-d386370bd0e1.png?v=1737655618&width=246"],
         "type": "1"
-    },
+    },  
     {
-        "name": "Teddy Potato Duo",
+        "n  ame": "Teddy Potato Duo",
         "price": 600,
         "original_price": 1000,
         "currency": "rupees",
         "desc": "Celebrate love and creativity with the 'Teddy Potato Duo'! Perfect for quirky and heartfelt gifts.",
         "tags": ["love", "valentine", "gift"],
-        "images": ["https://example.com/teddy-potato.png"],
+        "images": ["https://i.ibb.co/XrgtcRLL/2.png" , "https://i.ibb.co/wZnwzm7y/1.png"],
         "type": "1"
     },
     {
@@ -32,7 +32,7 @@ products = [
         "currency": "rupees",
         "desc": "Make this Valentine's Day special with a personalized potato and Ferrero Rocher chocolates!",
         "tags": ["valentine", "gift", "love"],
-        "images": ["https://example.com/love-potato-box.png"],
+        "images": ["https://i.ibb.co/BHWNrM4B/ferraror-potato.webp","https://i.ibb.co/BHWNrM4B/ferraror-potato.webp"],
         "type": "1"
     },
     {
@@ -42,7 +42,7 @@ products = [
         "currency": "rupees",
         "desc": "Meet the Potato Buddies! These cowboy-style potatoes bring humor and charm to any room.",
         "tags": ["funny", "decor", "gift"],
-        "images": ["https://example.com/cowboy-potato.png"],
+        "images": ["https://i.ibb.co/FLPZjGsR/girl-with-cowboy.webp","https://i.ibb.co/dwC1C9px/Screenshot-2025-01-23-233730.png"],
         "type": "1"
     },
     {
@@ -52,7 +52,7 @@ products = [
         "currency": "rupees",
         "desc": "Say 'I love you' in the quirkiest way with our Potato Love Bundle! Cute doodles & heartfelt messages.",
         "tags": ["love", "valentine", "gift"],
-        "images": ["https://example.com/love-bundle.png"],
+        "images": ["https://i.ibb.co/kVjYcLCw/potato-Ilvu.webp","https://i.ibb.co/gZCsrqqX/bundlepotato.png"],
         "type": "1"
     }
 ]
